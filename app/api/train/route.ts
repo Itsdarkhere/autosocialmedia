@@ -3,7 +3,6 @@ import Replicate from "replicate";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import AdmZip from 'adm-zip';
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN!,
@@ -54,25 +53,6 @@ interface TrainingInput {
       fs.writeFileSync(tempFilePath, Buffer.from(fileBuffer));
   
       console.log("Temporary file created:", tempFilePath);
-  
-      // Verify zip integrity and contents
-      try {
-        const zip = new AdmZip(tempFilePath);
-        const entries = zip.getEntries();
-  
-        const hasImageFiles = entries.some((entry: any) => 
-          /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(entry.entryName)
-        );
-  
-        if (!hasImageFiles) {
-          throw new Error("ZIP file doesn't contain any image files");
-        } else {
-            console.log("----")
-            console.log("ZIP HAS IMAGE FILES")
-        }
-      } catch (error) {
-        throw new Error("Invalid ZIP file or no image files found");
-      }
   
       // Create a new model
       const modelParams: ModelCreationParams = {
