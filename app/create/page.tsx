@@ -1,4 +1,4 @@
-import CompanyDashboard from "@/components/CompanyDashboard";
+import CompanyDashboard from "@/components/CompanyDashboard/CompanyDashboard";
 
 export default function Create() {
   return (
