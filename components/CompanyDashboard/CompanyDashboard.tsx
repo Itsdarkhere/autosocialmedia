@@ -14,6 +14,7 @@ import CompanyDetails from "./CompanyDetails";
 import { Button } from "../ui/button";
 import { Loader2 } from 'lucide-react';
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export interface Service {
   id: string;
@@ -30,19 +31,20 @@ export interface Promotion {
   endDate?: string;
 }
 
-interface ApiResponse {
-  imageUrl: string;
-  message: string;
-  post: string;
+type ApiResponse = {
   success: boolean;
-}
+  message: string;
+  post?: string;
+  prediction?: any;
+  imagePrompt?: string;
+};
 
 const GeneratedContent: React.FC<{ apiResponse: ApiResponse | null }> = ({ apiResponse }) => {
   if (!apiResponse) return null;
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <img src={apiResponse.imageUrl} alt="Generated content" className="w-full h-auto" />
+      <img src={apiResponse.prediction} alt="Generated content" className="w-full h-auto" />
       <div className="p-4">
         <p className="text-sm text-gray-600 whitespace-pre-wrap">{apiResponse.post}</p>
       </div>
@@ -59,10 +61,16 @@ const CompanyDashboard = () => {
   const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // IMAGEGEN PIPELINE START
+  const [prediction, setPrediction] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+ 
   const handleImagine = async () => {
     setIsLoading(true);
+    setError(null);
     try {
-      const response = await fetch("/api/imagine", {
+      // Call the imagine API
+      const imagineResponse = await fetch("/api/imagine", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,15 +83,57 @@ const CompanyDashboard = () => {
         }),
       });
 
-      if (!response.ok) {
+      if (!imagineResponse.ok) {
         throw new Error("Failed to imagine");
       }
 
-      const data: ApiResponse = await response.json();
-      setApiResponse(data);
+      const imagineData: ApiResponse = await imagineResponse.json();
+
+      // Call the predictions API
+      const predictionsResponse = await fetch("/api/predictions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          companyName,
+          companyDescription,
+          services,
+          promotions,
+        }),
+      });
+
+      if (predictionsResponse.status !== 201) {
+        throw new Error("Failed to start image generation");
+      }
+
+      let prediction = await predictionsResponse.json();
+      prediction = prediction.prediction;
+      console.log("prediction: ", prediction)
+      // Poll for the final prediction result
+      while (
+        prediction.status !== "succeeded" &&
+        prediction.status !== "failed"
+      ) {
+        await sleep(1000);
+        const pollResponse = await fetch("/api/predictions/" + prediction.id);
+        if (pollResponse.status !== 200) {
+          throw new Error("Failed to poll prediction status");
+        }
+        prediction = await pollResponse.json();
+      }
+
+      console.log("final prediction: ", prediction)
+      // Combine the results
+      const combinedResponse: ApiResponse = {
+        ...imagineData,
+        prediction: prediction.output[0],
+      };
+
+      setApiResponse(combinedResponse);
     } catch (error) {
       console.error("Error in imagine request:", error);
-      // Handle the error as needed
+      setError(error instanceof Error ? error.message : "An unknown error occurred");
     } finally {
       setIsLoading(false);
     }

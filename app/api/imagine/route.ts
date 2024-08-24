@@ -1,14 +1,10 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
-import Replicate from "replicate";
 import {
   Promotion,
   Service,
 } from "@/components/CompanyDashboard/CompanyDashboard";
 
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN!,
-});
 const anthropic = new Anthropic();
 
 export async function POST(request: Request) {
@@ -62,47 +58,11 @@ export async function POST(request: Request) {
       throw new Error("No text content found in the Anthropic API response");
     }
 
-    // Generate an image prompt based on the company details
-    const imagePromptResponse = await anthropic.messages.create({
-      model: "claude-3-5-sonnet-20240620",
-      max_tokens: 100,
-      temperature: 0.7,
-      system:
-        "You are an expert at creating prompts for image generation AI. Create a vivid, detailed prompt for an image that represents the essence of the company and its services. The prompt should be suitable for generating an engaging social media image. Try to create the prompt in a way that the resulting image is photo-realistic, looks real.",
-      messages: [
-        {
-          role: "user",
-          content: content,
-        },
-      ],
-    });
-
-    let imagePrompt = "";
-    for (const block of imagePromptResponse.content) {
-      if ("type" in block && block.type === "text") {
-        imagePrompt += block.text;
-      }
-    }
-
-    if (!imagePrompt) {
-      throw new Error(
-        "No image prompt generated from the Anthropic API response"
-      );
-    }
-
-    // Generate an image using Replicate
-    const imageOutput = await replicate.run("black-forest-labs/flux-pro", {
-      input: { prompt: imagePrompt },
-    });
-
-    console.log("IMAGE: ", imageOutput);
-
     return NextResponse.json(
       {
         success: true,
         message: "Social media post and image generated successfully",
         post: generatedPost,
-        imageUrl: Array.isArray(imageOutput) ? imageOutput[0] : imageOutput,
       },
       { status: 200 }
     );
