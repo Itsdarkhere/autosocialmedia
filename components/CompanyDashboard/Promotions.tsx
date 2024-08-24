@@ -21,14 +21,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Switch } from "../ui/switch";
-
-interface Promotion {
-  id: string;
-  description: string;
-  isOngoing: boolean;
-  startDate?: string;
-  endDate?: string;
-}
+import { Promotion } from "./CompanyDashboard";
 
 const PromotionModal: React.FC<{ onSave: (promotion: Promotion) => void }> = ({
   onSave,
@@ -124,9 +117,15 @@ const PromotionModal: React.FC<{ onSave: (promotion: Promotion) => void }> = ({
   );
 };
 
-const Promotions: React.FC = () => {
-  const [promotions, setPromotions] = useState<Promotion[]>([]);
+interface PromotionsProps {
+  promotions: Promotion[];
+  setPromotions: React.Dispatch<React.SetStateAction<Promotion[]>>;
+}
 
+const Promotions: React.FC<PromotionsProps> = ({
+  promotions,
+  setPromotions,
+}) => {
   const addPromotion = (newPromotion: Promotion) => {
     setPromotions((prev) => [...prev, newPromotion]);
   };

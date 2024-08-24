@@ -20,6 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Service } from "./CompanyDashboard";
 
 interface Product {
   id: string;
@@ -27,13 +28,6 @@ interface Product {
   description: string;
   price: number;
   images: string[];
-}
-
-interface Service {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
 }
 
 const ProductModal: React.FC<{ onSave: (product: Product) => void }> = ({
@@ -242,9 +236,16 @@ const ServiceModal: React.FC<{ onSave: (service: Service) => void }> = ({
   );
 };
 
-const ProductsAndServices: React.FC = () => {
+interface ProductsAndServicesProps {
+  services: Service[];
+  setServices: React.Dispatch<React.SetStateAction<Service[]>>;
+}
+
+const ProductsAndServices: React.FC<ProductsAndServicesProps> = ({
+  services,
+  setServices,
+}) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
 
   const addProduct = (newProduct: Product) => {
     setProducts((prev) => [...prev, newProduct]);

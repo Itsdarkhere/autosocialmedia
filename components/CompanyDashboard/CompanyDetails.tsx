@@ -144,7 +144,19 @@ const ArtifactModal: React.FC<{ onSave: (artifact: Artifact) => void }> = ({
   );
 };
 
-const CompanyDetails: React.FC = () => {
+interface CompanyDetailsProps {
+  companyName: string;
+  setCompanyName: React.Dispatch<React.SetStateAction<string>>;
+  companyDescription: string;
+  setCompanyDescription: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const CompanyDetails: React.FC<CompanyDetailsProps> = ({
+  companyName,
+  setCompanyName,
+  companyDescription,
+  setCompanyDescription,
+}) => {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
 
   const addArtifact = (newArtifact: Artifact) => {
@@ -161,12 +173,24 @@ const CompanyDetails: React.FC = () => {
       </CardHeader>
       <CardContent className='space-y-6'>
         <div>
+          <Label htmlFor='company-name'>Company Name</Label>
+          <Input
+            id='company-name'
+            placeholder='Enter your company name'
+            className='mt-2'
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
+          />
+        </div>
+        <div>
           <Label htmlFor='company-description'>Company Description</Label>
           <Textarea
             id='company-description'
             placeholder="Provide a descriptive tale of what your company does, your mission, vision, and the values you promote. Include information about your history, your unique selling points, and how you make a difference in your industry or community. This description should give a comprehensive overview of your company's identity and purpose."
             className='mt-2'
             rows={6}
+            value={companyDescription}
+            onChange={(e) => setCompanyDescription(e.target.value)}
           />
         </div>
         <div>
