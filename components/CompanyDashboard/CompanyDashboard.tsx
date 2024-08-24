@@ -121,6 +121,7 @@ const CompanyDashboard = () => {
           throw new Error("Failed to poll prediction status");
         }
         prediction = await pollResponse.json();
+        console.log("prediction: ", prediction);
       }
 
       console.log("final prediction: ", prediction)
