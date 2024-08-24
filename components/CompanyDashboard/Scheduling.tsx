@@ -53,7 +53,7 @@ const Scheduling: React.FC = () => {
           </div>
           <p className='text-sm max-w-xl text-gray-500 ml-6'>
             If this box is checked, we won&apos;'t post the content automatically.
-            You'll need to first approve each piece of content in the
+            You&apos;'ll need to first approve each piece of content in the
             EasySocialMedia mobile app or website.
           </p>
         </div>
