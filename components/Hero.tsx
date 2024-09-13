@@ -20,7 +20,7 @@ export default function Hero() {
             href={"/login"}
             className=' px-8 py-3 w-full max-w-72 rounded-md focus:outline focus:outline-offset-2 focus:outline-blue-500 focus:outline-2 bg-blue-500 text-white font-semibold'
           >
-            Try easyLinkedin for free
+            Try EasyLinkedin for free
           </Link>
           <span className=" text-sm text-neutral-500">( no credit card required )</span>
         </div>
