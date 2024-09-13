@@ -10,7 +10,7 @@ export default function Hero() {
             <h1 className=' text-blue-500 font-bold text-4xl md:text-6xl'>
             Grow your linkedin<br/>on auto-pilot
             </h1>
-            <h2 className=' text-neutral-500 text-sm'>
+            <h2 className=' max-w-[400px] text-neutral-500 text-sm'>
             Our AI post automation tool allows you to create fantastic content,
             specific to your industry, with ease
             </h2>
