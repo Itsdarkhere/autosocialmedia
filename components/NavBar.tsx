@@ -21,13 +21,13 @@ const NavBar: React.FC = () => {
         <div className="flex justify-between h-16">
           <div className="flex flex-row justify-between w-full">
             <Link href={"/"} className="flex-shrink-0 flex gap-1 justify-center items-center">
-              <Disc size={20} className=' text-blue-900' />
-              <span className="font-semibold text-blue-900 text-2xl">EasyLinkedin</span>
+              <Disc size={20} className=' text-neutral-900' />
+              <span className="font-semibold text-neutral-800 text-2xl">EasyLinkedin</span>
             </Link>
             <div className="hidden sm:ml-6 sm:flex justify-center items-center sm:space-x-8">
-              <Link href={"/"} className=' text-blue-800 text-base font-medium'>Pricing</Link>
-              <Link href={"/"} className=' text-blue-800 text-base font-medium'>Login</Link>
-              <Link href={"/"} className=' px-5 py-2 bg-blue-800 text-neutral-100 font-semibold rounded-md'>Sign-up</Link>
+              <Link href={"/"} className=' text-neutral-800 text-base font-medium'>Pricing</Link>
+              <Link href={"/"} className=' text-neutral-800 text-base font-medium'>Login</Link>
+              <Link href={"/"} className=' px-5 py-2 bg-blue-600 text-neutral-100 font-semibold rounded-md'>Sign-up</Link>
             </div>
           </div>
           <div className="sm:hidden flex items-center">
