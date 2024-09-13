@@ -1,11 +1,12 @@
 import React from 'react';
-import { Home, BarChart2, Settings, HelpCircle, Menu } from 'lucide-react';
+import { Home, BarChart2, Settings, HelpCircle, Menu, Disc } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import Link from 'next/link';
 
 interface NavItem {
   icon: React.ReactNode;
@@ -13,33 +14,20 @@ interface NavItem {
   href: string;
 }
 
-const navItems: NavItem[] = [
-  { icon: <Home size={20} />, label: 'Dashboard', href: '/create' },
-  { icon: <BarChart2 size={20} />, label: 'Analytics', href: '/' },
-  { icon: <Settings size={20} />, label: 'Settings', href: '/settings' },
-  { icon: <HelpCircle size={20} />, label: 'Help', href: '/help' },
-];
-
 const NavBar: React.FC = () => {
   return (
-    <nav className="bg-white shadow-sm px-4 sm:px-6 lg:px-8">
+    <nav className=" bg-neutral-50 border-b border-b-neutral-300 shadow-sm px-4 ">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between h-16">
           <div className="flex flex-row justify-between w-full">
-            <div className="flex-shrink-0 flex items-center">
-              <span className="font-semibold text-zinc-500 text-xl">EasySocialMedia</span>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                >
-                  {item.icon}
-                  <span className="ml-2">{item.label}</span>
-                </a>
-              ))}
+            <Link href={"/"} className="flex-shrink-0 flex gap-1 justify-center items-center">
+              <Disc size={20} className=' text-blue-900' />
+              <span className="font-semibold text-blue-900 text-2xl">EasyLinkedin</span>
+            </Link>
+            <div className="hidden sm:ml-6 sm:flex justify-center items-center sm:space-x-8">
+              <Link href={"/"} className=' text-blue-800 text-base font-medium'>Pricing</Link>
+              <Link href={"/"} className=' text-blue-800 text-base font-medium'>Login</Link>
+              <Link href={"/"} className=' px-5 py-2 bg-blue-800 text-neutral-100 font-semibold rounded-md'>Sign-up</Link>
             </div>
           </div>
           <div className="sm:hidden flex items-center">
@@ -51,16 +39,9 @@ const NavBar: React.FC = () => {
               </SheetTrigger>
               <SheetContent side="right">
                 <nav className="flex flex-col space-y-4 mt-4">
-                  {navItems.map((item) => (
-                    <a
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-center px-2 py-2 text-base font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900"
-                    >
-                      {item.icon}
-                      <span className="ml-3">{item.label}</span>
-                    </a>
-                  ))}
+                  <Link href={"/"}>Pricing</Link>
+                  <Link href={"/"}>Login</Link>
+                  <Link href={"/"}>Sign-up</Link>
                 </nav>
               </SheetContent>
             </Sheet>
