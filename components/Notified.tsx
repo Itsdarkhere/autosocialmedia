@@ -29,7 +29,7 @@ function EmailInput() {
     <div className='flex h-12 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-neutral-200 rounded-md shadow-md w-min flex-row items-center'>
       <input
         type='email'
-        className=' rounded-l-md outline-none md:w-80 max-w-full h-full px-3 py-2'
+        className=' rounded-l-md rounded-r-none outline-none md:w-80 max-w-full h-full px-3 py-2'
         placeholder='bob@example.com'
       />
       <button className=' h-full px-5 py-2 text-sm rounded-r-md border-none outline-none bg-blue-800 text-neutral-50 font-semibold'>
